@@ -7,14 +7,18 @@ pipeline {
          stages {
          // your solution
                   stage('Compile') {
-                           echo 'compiling...'
-                           sh 'mvn compile'
+                           steps {
+                                    echo 'compiling...'
+                                    sh 'mvn compile'
+                           }
                   }
                   stage('Unit Test') {
-                           echo 'Unit Testing...'
-                           sh 'mvn resources:testResources'
-                           sh 'mvn compiler:testCompile'
-                           sh 'mvn surefire:test'
+                           steps {
+                                    echo 'Unit Testing...'
+                                    sh 'mvn resources:testResources'
+                                    sh 'mvn compiler:testCompile'
+                                    sh 'mvn surefire:test'
+                           }
                   }
          }
 }
