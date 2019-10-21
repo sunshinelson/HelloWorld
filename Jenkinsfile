@@ -1,45 +1,20 @@
 pipeline {
          agent any
+         tools {
+                  maven 'Maven 3.6'
+                  jdk 'JDK11'
+         }
          stages {
-                 stage('One') {
-                 steps {
-                     echo 'Hi, this is Zulaikha from edureka'
-                 }
-                 }
-                 stage('Two') {
-                 steps {
-                    input('Do you want to proceed?')
-                 }
-                 }
-                 stage('Three') {
-                 when {
-                       not {
-                            branch "master"
-                       }
-                 }
-                 steps {
-                       echo "Hello"
-                 }
-                 }
-                 stage('Four') {
-                 parallel { 
-                            stage('Unit Test') {
-                           steps {
-                                echo "Running the unit test..."
-                           }
-                           }
-                            stage('Integration test') {
-                              agent {
-                                    docker {
-                                            reuseNode true
-                                            image 'ubuntu'
-                                           }
-                                    }
-                              steps {
-                                echo "Running the integration test..."
-                              }
-                           }
-                           }
-                           }
-              }
+         // your solution
+                  stage('Compile') {
+                           echo 'compiling...'
+                           sh 'mvn compile'
+                  }
+                  stage('Unit Test') {
+                           echo 'Unit Testing...'
+                           sh 'mvn resources:testResources'
+                           sh 'mvn compiler:testCompile'
+                           sh 'mvn surefire:test'
+                  }
+         }
 }
